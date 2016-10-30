@@ -50,13 +50,13 @@ Level::Level(const std::string& levelPath, int tileWidth, int tileHeight) {
 				break;
 			case 'L':
 				levelData_[y][x] = '.'; /// So we dont collide with L
-				playerStartPosition_.x = x * tileWidth;
-				playerStartPosition_.y = y * tileHeight;
+				playerStartPosition_.x = (float)(x * tileWidth);
+				playerStartPosition_.y = (float)(y * tileHeight);
 				break;
 			case '.':
 				break;
 			default:
-				std::printf("Unexpected symbol '%c' found in level file %s at line %d character %d", tile, levelPath, x, y);
+				std::printf("Unexpected symbol '%c' found in level file %s at line %d character %d", tile, levelPath.c_str(), x, y);
 				break;
 			}
 		}

@@ -21,6 +21,8 @@ void MainGame::initialize() {
 	fpsLimiter_.setMaxFPS(maxFps_);
 	// Initialize sprite batch
 	spriteBatch_.initialize();
+	// Initialize the camera
+	camera_.init(screenSize_.x, screenSize_.y);
 	// Set the colour the screen is cleared to, to dark blue
 	glClearColor(0.0f, 0.0f, 0.3f, 1.0f);
 	// Set the depth the screen is cleared to
@@ -41,7 +43,7 @@ void MainGame::initShaders() {
 }
 
 void MainGame::initLevel() {
-	levels_.push_back(Level("Levels/FirstLevel.txt", 64, 64));
+	levels_.emplace_back("Levels/FirstLevel.txt", 64, 64);
 }
 
 void MainGame::gameLoop() {
@@ -49,10 +51,14 @@ void MainGame::gameLoop() {
 	while (gameState_ != State::EXIT) {
 		// Check ticks at the start of cycle
 		fpsLimiter_.start();
+		//Update the input manager
+		inputManager_.update();
 		// Process input from user
 		processInput();
 		// Draw the game
 		drawGame();
+		// Update the camera
+		camera_.update();
 		// Check ticks at end and store in fps_
 		fps_ = fpsLimiter_.stop();
 		// Count frames until 40 frames have been then print fps and set to 0

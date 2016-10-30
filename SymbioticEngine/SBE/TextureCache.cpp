@@ -27,7 +27,7 @@ GLTexture TextureCache::getTexture(std::string textureFilePath) {
 		std::cout << "Loaded texture!\n";
 		return tmpTexture;
 	}
-	std::cout << "Used cached texutre!\n";
+	std::cout << "Used cached texture!\n";
 	//We not that mit is now pointing to our desired texture, we return the texture the second value
 	return mit->second;
 
