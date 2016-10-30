@@ -12,6 +12,7 @@ public:
 	void init(int screenWidth, int screenHeight);
 	void update();
 	glm::vec2 getWorldFromScreen(glm::vec2 screenCoordinates);
+	bool isBoxInView(const glm::vec2& position, const glm::vec2& dimensions);
 
 	void setPosition(const glm::vec2& newPostion);
 	void setScale(float newScale);

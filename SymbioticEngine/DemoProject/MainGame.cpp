@@ -41,7 +41,7 @@ void MainGame::initShaders() {
 
 void MainGame::initGame() {
 	_playerTexture = sbe::ResourceManager::getTexture("Textures/Sprites/Player1/p1_stand.png");
-	_bulletTexture = sbe::ResourceManager::getTexture("Textures/Sprites/Player1/p1_stand.png");
+	_bulletTexture = sbe::ResourceManager::getTexture("Textures/Sprites/Enemies/snailWalk1.png");
 }
 
 void MainGame::gameLoop() {
@@ -68,7 +68,7 @@ void MainGame::gameLoop() {
 
 		_frameCounter++;
 		if (_frameCounter >= 40) {
-			//printf("FPS: %d\n", (int)_fps);
+			printf("FPS: %d\n", (int)_fps);
 			_frameCounter = 0;
 		}
 		
@@ -169,7 +169,7 @@ void MainGame::processInput() {
 		*/
 		direction = glm::normalize(direction);
 
-		_bullets.emplace_back(playerPosition, direction, 10.0f, _bulletTexture.id, 60);
+		_bullets.emplace_back(playerPosition, direction, 2.0f, _bulletTexture.id, 1024);
 	}
 
 }
