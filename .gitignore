@@ -3,3 +3,24 @@
 ################################################################################
 
 /SymbioticEngine/3rdPartyDeps
+/SymbioticEngine/SymbioticEngine.VC.VC.opendb
+/SymbioticEngine/SymbioticEngine.VC.db
+/SymbioticEngine/SymbioticEngine.sln
+/SymbioticEngine/SBE/Debug
+/SymbioticEngine/SBE/glew32.dll
+/SymbioticEngine/SBE/ReadMe.txt
+/SymbioticEngine/SBE/SDL2.dll
+/SymbioticEngine/SBE/SBE.vcxproj.user
+/SymbioticEngine/SBE/SBE.vcxproj.filters
+/SymbioticEngine/SBE/SBE.vcxproj
+/SymbioticEngine/Maize/Maize.vcxproj.filters
+/SymbioticEngine/Maize/Maize.vcxproj
+
+/SymbioticEngine/DemoProject/Debug
+/SymbioticEngine/DemoProject/glew32.dll
+/SymbioticEngine/DemoProject/SDL2.dll
+/SymbioticEngine/DemoProject/DemoProject.vcxproj.user
+/SymbioticEngine/DemoProject/DemoProject.vcxproj.filters
+/SymbioticEngine/DemoProject/DemoProject.vcxproj
+/SymbioticEngine/Debug
+/SymbioticEngine/.vs
