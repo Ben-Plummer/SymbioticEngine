@@ -10,9 +10,9 @@
 #include <SBE/Camera.h>
 #include <SBE/FpsLimiter.h>
 
-enum class State {
-	PLAY, EXIT
-};
+#include "Level.h"
+
+enum class State { PLAY, EXIT };
 
 class MainGame {
 public:
@@ -22,6 +22,7 @@ public:
 private:
 	void initialize();
 	void initShaders();
+	void initLevel();
 	void gameLoop();
 	void processInput();
 	void drawGame();
@@ -37,4 +38,7 @@ private:
 	sbe::SpriteBatch spriteBatch_;
 	sbe::FpsLimiter fpsLimiter_;
 	sbe::Camera camera_;
+
+	std::vector<Level> levels_;
+	int currentLevel_ = 0;
 };

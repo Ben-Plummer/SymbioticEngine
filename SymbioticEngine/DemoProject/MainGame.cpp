@@ -193,9 +193,8 @@ void MainGame::drawGame() {
 	_spriteBatch.startUsing();
 	
 	glm::vec4 pos(0.0f, 0.0f, 66.0f, 92.0f);
-	glm::vec4 uv(0.0f, 0.0f, 1.0f, 1.0f);
 	
-	_spriteBatch.draw(pos, uv, _playerTexture.id, sbe::Colour(255, 255, 255, 255), 1.0f);
+	_spriteBatch.draw(pos, _playerTexture.id);
 	
 	for (unsigned int i = 0; i < _bullets.size(); i++) {
 		_bullets[i].draw(_spriteBatch);

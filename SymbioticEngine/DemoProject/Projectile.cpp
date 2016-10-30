@@ -10,9 +10,7 @@ Projectile::Projectile(glm::vec2 position, glm::vec2 direction, float speed, GLu
 
 void Projectile::draw(sbe::SpriteBatch& spriteBatch) {
 
-	spriteBatch.draw(glm::vec4(position_.x, position_.y, 30, 30), 
-		             glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), 
-		             textureID_, sbe::Colour(255, 255, 255, 255), 1.0f);
+	spriteBatch.draw(glm::vec4(position_.x, position_.y, 30, 30), textureID_);
 }
 
 bool Projectile::update() {

@@ -24,3 +24,6 @@
 /SymbioticEngine/DemoProject/DemoProject.vcxproj
 /SymbioticEngine/Debug
 /SymbioticEngine/.vs
+/SymbioticEngine/Maize/Debug
+/SymbioticEngine/Maize/glew32.dll
+/SymbioticEngine/Maize/SDL2.dll

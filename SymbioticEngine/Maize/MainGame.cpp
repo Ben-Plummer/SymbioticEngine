@@ -25,6 +25,8 @@ void MainGame::initialize() {
 	glClearColor(0.0f, 0.0f, 0.3f, 1.0f);
 	// Set the depth the screen is cleared to
 	glClearDepth(1.0f);
+	// Initialize game levels and objects
+	initLevel();
 }
 
 void MainGame::initShaders() {
@@ -36,6 +38,10 @@ void MainGame::initShaders() {
 	shaderProgram_.addAttribute("vertexUV");
 	// Link the shaders together in one program
 	shaderProgram_.linkShaders();
+}
+
+void MainGame::initLevel() {
+	levels_.push_back(Level("Levels/FirstLevel.txt", 64, 64));
 }
 
 void MainGame::gameLoop() {
@@ -52,7 +58,7 @@ void MainGame::gameLoop() {
 		// Count frames until 40 frames have been then print fps and set to 0
 		static int frameCounter;
 		if (frameCounter++ == 40) {
-			printf("FPS: %d", (int)fps_);
+			printf("FPS: %d\n", (int)fps_);
 			frameCounter = 0;
 		}
 	}
@@ -65,6 +71,9 @@ void MainGame::processInput() {
 	while (SDL_PollEvent(&evnt)) {
 		//Update inputManager_ depending on what keys are pressed
 		switch (evnt.type) {
+		case SDL_QUIT:
+			gameState_ = State::EXIT;
+			break;
 		case SDLK_DOWN:
 			switch (evnt.key.keysym.sym) {
 			case SDLK_w:
@@ -95,8 +104,22 @@ void MainGame::processInput() {
 				inputManager_.releaseKey(SDLK_d);
 				break;
 			}
-		
 		}
+	}
+	const float CAMERA_SPEED = 1.0f;
+	const float SCALE_SPEED = 0.01f;
+
+	if (inputManager_.isKeyDown(SDLK_w)) {
+		camera_.setPosition(camera_.getPosition() - glm::vec2(0.0f, CAMERA_SPEED));
+	}
+	if (inputManager_.isKeyDown(SDLK_a)) {
+		camera_.setPosition(camera_.getPosition() + glm::vec2(CAMERA_SPEED, 0.0f));
+	}
+	if (inputManager_.isKeyDown(SDLK_s)) {
+		camera_.setPosition(camera_.getPosition() + glm::vec2(0.0f, CAMERA_SPEED));
+	}
+	if (inputManager_.isKeyDown(SDLK_d)) {
+		camera_.setPosition(camera_.getPosition() - glm::vec2(CAMERA_SPEED, 0.0f));
 	}
 }
 
@@ -107,14 +130,17 @@ void MainGame::drawGame() {
 	// Start using the shader program (enable each attribute)
 	shaderProgram_.startUsing();
 
-	// Bind texture
+	// Sets the active texture to the first one
 	glActiveTexture(GL_TEXTURE0);
+	// Passes this into the shader program
 	GLint textureLocation = shaderProgram_.getUniformLocation("mySampler");
 	glUniform1i(textureLocation, 0);
 
 	// Set the camera matrix
 	GLint cameraMatrixLocation = shaderProgram_.getUniformLocation("cameraMatrix");
 	glUniformMatrix4fv(cameraMatrixLocation, 1, GL_FALSE, &camera_.getCameraMatrix()[0][0]);
+
+	levels_[currentLevel_].draw();
 
 	// Start using sprite batch (clears the current glyphs and batches)
 	spriteBatch_.startUsing();
@@ -130,6 +156,9 @@ void MainGame::drawGame() {
 	// Render all the batches created
 	spriteBatch_.renderBatch();
 
-	
+	//Stop using the shader program
+	shaderProgram_.stopUsing();
 
+	// Swap the buffer to prevent flickering
+	window_.swapBuffer();
 }
