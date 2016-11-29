@@ -11,6 +11,7 @@
 #include <SBE/FpsLimiter.h>
 
 #include "Level.h"
+#include "Player.h"
 
 enum class State { PLAY, EXIT };
 
@@ -41,4 +42,9 @@ private:
 
 	std::vector<Level> levels_;
 	int currentLevel_ = 0;
+
+	Player player_;
+	sbe::GLTexture entityTexture_;
+	
+	
 };

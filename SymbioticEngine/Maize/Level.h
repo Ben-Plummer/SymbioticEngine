@@ -1,8 +1,8 @@
 #pragma once
+#include <SBE/SpriteBatch.h>
+
 #include <string>
 #include <vector>
-
-#include <SBE/SpriteBatch.h>
 
 
 class Level
@@ -26,4 +26,3 @@ private:
 	std::vector<glm::vec2> redEnemyStartPositions_;
 	std::vector<glm::vec2> blueEnemyStartPositions_;
 };
-

@@ -47,14 +47,6 @@ glm::vec2 Camera::getWorldFromScreen(glm::vec2 screenCoordinates) {
 	return screenCoordinates;
 }
 
-bool Camera::isBoxInView(const glm::vec2& position, const glm::vec2& dimensions) {
-	// Scale the screen dimensions with the camera scale
-	glm::vec2 scaledScreenDimensions = glm::vec2(_screenDimensions.x, _screenDimensions.y) / (_scale);
-
-	// The minimum distance 
-	// TODO: !!!!!
-}
-
 //Sets the position of the camera
 void Camera::setPosition(const glm::vec2& newPostion) {
 	_position = newPostion;

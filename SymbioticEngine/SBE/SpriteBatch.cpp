@@ -28,7 +28,7 @@ void SpriteBatch::stopUsing() {
 	createGlyphBatches();
 }
 
-void SpriteBatch::draw(const glm::vec4& destRect, GLuint texture, const glm::vec4& uvRect, const Colour& colour, float depth) {
+void SpriteBatch::draw(const glm::vec4& destRect, GLuint texture, const Colour& colour, const glm::vec4& uvRect, float depth) {
 	Glyph* newGlyph = new Glyph;
 	newGlyph->texture = texture;
 	newGlyph->depth = depth;

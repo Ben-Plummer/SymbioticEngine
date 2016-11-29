@@ -1,6 +1,9 @@
 #include "MainGame.h"
 #include <SDL/SDL.h>
 
+int ENTITY_WIDTH = 48;
+int TILE_WIDTH = 64;
+
 MainGame::MainGame() {
 
 }
@@ -14,7 +17,7 @@ void MainGame::run() {
 
 void MainGame::initialize() {
 	// Create window
-	window_.create("MAIZE", screenSize_.x, screenSize_.y, 0);
+	window_.create("MAZE", screenSize_.x, screenSize_.y, 0);
 	// Initialize shaders
 	initShaders();
 	// Set max fps to 120
@@ -43,7 +46,11 @@ void MainGame::initShaders() {
 }
 
 void MainGame::initLevel() {
-	levels_.emplace_back("Levels/FirstLevel.txt", 64, 64);
+	levels_.emplace_back("Levels/FirstLevel.txt", TILE_WIDTH, TILE_WIDTH);
+	entityTexture_ = sbe::ResourceManager::getTexture("Textures/EntityModel.png");
+	// Creates player
+	player_.initialize(levels_[0].getStartPlayerPos(), 1.0f, ENTITY_WIDTH, sbe::Colour(0, 255, 0, 255), entityTexture_.id, &inputManager_);
+
 }
 
 void MainGame::gameLoop() {
@@ -51,16 +58,26 @@ void MainGame::gameLoop() {
 	while (gameState_ != State::EXIT) {
 		// Check ticks at the start of cycle
 		fpsLimiter_.start();
+
 		//Update the input manager
 		inputManager_.update();
+
 		// Process input from user
 		processInput();
+
 		// Draw the game
 		drawGame();
+
 		// Update the camera
 		camera_.update();
+		// Set the position of the camera to the player
+		camera_.setPosition(player_.getPosition() - glm::vec2(screenSize_.x / 2 - 24, screenSize_.y / 2 - 24));
+
+		// Updates player
+		player_.update(levels_[0].getLevelData(), TILE_WIDTH);
 		// Check ticks at end and store in fps_
 		fps_ = fpsLimiter_.stop();
+
 		// Count frames until 40 frames have been then print fps and set to 0
 		static int frameCounter;
 		if (frameCounter++ == 40) {
@@ -80,52 +97,13 @@ void MainGame::processInput() {
 		case SDL_QUIT:
 			gameState_ = State::EXIT;
 			break;
-		case SDLK_DOWN:
-			switch (evnt.key.keysym.sym) {
-			case SDLK_w:
-				inputManager_.pressKey(SDLK_w);
-				break;
-			case SDLK_a:
-				inputManager_.pressKey(SDLK_a);
-				break;
-			case SDLK_s:
-				inputManager_.pressKey(SDLK_s);
-				break;
-			case SDLK_d:
-				inputManager_.pressKey(SDLK_d);
-				break;
-			}
-		case SDLK_UP:
-			switch (evnt.key.keysym.sym) {
-			case SDLK_w:
-				inputManager_.releaseKey(SDLK_w);
-				break;
-			case SDLK_a:
-				inputManager_.releaseKey(SDLK_a);
-				break;
-			case SDLK_s:
-				inputManager_.releaseKey(SDLK_s);
-				break;
-			case SDLK_d:
-				inputManager_.releaseKey(SDLK_d);
-				break;
-			}
+		case SDL_KEYDOWN:
+			inputManager_.pressKey(evnt.key.keysym.sym);
+			break;
+		case SDL_KEYUP:
+			inputManager_.releaseKey(evnt.key.keysym.sym);
+			break;
 		}
-	}
-	const float CAMERA_SPEED = 1.0f;
-	const float SCALE_SPEED = 0.01f;
-
-	if (inputManager_.isKeyDown(SDLK_w)) {
-		camera_.setPosition(camera_.getPosition() - glm::vec2(0.0f, CAMERA_SPEED));
-	}
-	if (inputManager_.isKeyDown(SDLK_a)) {
-		camera_.setPosition(camera_.getPosition() + glm::vec2(CAMERA_SPEED, 0.0f));
-	}
-	if (inputManager_.isKeyDown(SDLK_s)) {
-		camera_.setPosition(camera_.getPosition() + glm::vec2(0.0f, CAMERA_SPEED));
-	}
-	if (inputManager_.isKeyDown(SDLK_d)) {
-		camera_.setPosition(camera_.getPosition() - glm::vec2(CAMERA_SPEED, 0.0f));
 	}
 }
 
@@ -151,11 +129,7 @@ void MainGame::drawGame() {
 	// Start using sprite batch (clears the current glyphs and batches)
 	spriteBatch_.startUsing();
 
-	/*
-	
-	DRAW ALL OBJECTS!!!!
-	
-	*/
+	player_.draw(spriteBatch_);
 
 	// Stop using the sprite batch (sorts glyphs and creates batches)
 	spriteBatch_.stopUsing();

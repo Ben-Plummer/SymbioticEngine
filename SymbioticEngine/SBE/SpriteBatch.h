@@ -37,7 +37,7 @@ public:
 	void startUsing();
 	void stopUsing();
 
-	void draw(const glm::vec4& destRect, GLuint texture, const glm::vec4& uvRect = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), const Colour& colour = Colour(255,255,255,255), float depth = 1.0f);
+	void draw(const glm::vec4& destRect, GLuint texture,  const Colour& colour = Colour(255,255,255,255), const glm::vec4& uvRect = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), float depth = 1.0f);
 	void renderBatch();
 
 private:
